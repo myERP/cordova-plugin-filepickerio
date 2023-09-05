@@ -17,82 +17,106 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-
-var argscheck = require('cordova/argscheck'),
-    exec = require('cordova/exec');
-
+var argscheck = require("cordova/argscheck"),
+  exec = require("cordova/exec");
 
 function parseArgs(args) {
-    var a = [];
-    a.push(args.mimeTypes || null);
-    a.push(args.services || null);
-    a.push(typeof args.multiple === 'boolean' ? args.multiple : null);
-    a.push(args.maxFiles || null);
-    a.push(args.maxSize || null);
-    return a;
-}    
-    
+  var a = [];
+  a.push(args.mimeTypes || null);
+  a.push(args.services || null);
+  a.push(typeof args.multiple === "boolean" ? args.multiple : null);
+  a.push(args.maxFiles || null);
+  a.push(args.maxSize || null);
+  return a;
+}
+
 function parseStoreArgs(args) {
-    var a = [];
-    a.push(args.location || null);
-    a.push(args.path || null);
-    a.push(args.container || null);
-    a.push(args.access || null);
-    return a;
-}    
-    
+  var a = [];
+  a.push(args.location || null);
+  a.push(args.path || null);
+  a.push(args.container || null);
+  a.push(args.access || null);
+  a.push(args.policy || null);
+  a.push(args.signature || null);
+  return a;
+}
+
 var filepickerio = {
-    /**
-     * Set the API key
-     * @param key
-     */
-    setKey:function(key) {
-        exec(function() {}, function() {}, 'filepickerio', 'setKey', [key]);
-    },
-    /**
-     * Set the app name
-     * @param name
-     */
-    setName:function(name) {
-        exec(function() {}, function() {}, 'filepickerio', 'setName', [name]);
-    },
-    /**
-     * Pick a file
-     * @param pickerOptions options
-     * @param successCB success callback
-     * @param errorCB error callback
-     * @return file
-     */
-    pick:function(pickerOptions, successCB, errorCB) {
-        pickerOptions.multiple = false;
-        exec(function(files) {
-            successCB && successCB(files[0]);
-        }, errorCB, 'filepickerio', 'pick', parseArgs(pickerOptions));
-    },
-    /**
-     * Pick multiple files
-     * @param pickerOptions options
-     * @param successCB success callback
-     * @param errorCB error callback
-     * @return files
-     */
-    pickMultiple:function(pickerOptions, successCB, errorCB) {
-        pickerOptions.multiple = true;
-        exec(successCB, errorCB, 'filepickerio', 'pick', parseArgs(pickerOptions));
-    },
-    /**
-     * Pick and store a file
-     * @param pickerOptions options
-     * @param storeOptions options
-     * @param successCB success callback
-     * @param errorCB error callback
-     * @return files
-     */
-    pickAndStore:function(pickerOptions, storeOptions, successCB, errorCB) {
-        exec(successCB, errorCB, 'filepickerio', 'pickAndStore', parseArgs(pickerOptions).concat(parseStoreArgs(storeOptions)));
-    }
+  /**
+   * Set the API key
+   * @param key
+   */
+  setKey: function (key) {
+    exec(
+      function () {},
+      function () {},
+      "filepickerio",
+      "setKey",
+      [key]
+    );
+  },
+  /**
+   * Set the app name
+   * @param name
+   */
+  setName: function (name) {
+    exec(
+      function () {},
+      function () {},
+      "filepickerio",
+      "setName",
+      [name]
+    );
+  },
+  /**
+   * Pick a file
+   * @param pickerOptions options
+   * @param successCB success callback
+   * @param errorCB error callback
+   * @return file
+   */
+  pick: function (pickerOptions, successCB, errorCB) {
+    pickerOptions.multiple = false;
+    exec(
+      function (files) {
+        successCB && successCB(files[0]);
+      },
+      errorCB,
+      "filepickerio",
+      "pick",
+      parseArgs(pickerOptions)
+    );
+  },
+  /**
+   * Pick multiple files
+   * @param pickerOptions options
+   * @param successCB success callback
+   * @param errorCB error callback
+   * @return files
+   */
+  pickMultiple: function (pickerOptions, successCB, errorCB) {
+    pickerOptions.multiple = true;
+    exec(successCB, errorCB, "filepickerio", "pick", parseArgs(pickerOptions));
+  },
+  /**
+   * Pick and store a file
+   * @param pickerOptions options
+   * @param storeOptions options
+   * @param successCB success callback
+   * @param errorCB error callback
+   * @return files
+   */
+  pickAndStore: function (pickerOptions, storeOptions, successCB, errorCB) {
+    exec(
+      successCB,
+      errorCB,
+      "filepickerio",
+      "pickAndStore",
+      parseArgs(pickerOptions).concat(parseStoreArgs(storeOptions))
+    );
+  },
 };
 
 module.exports = filepickerio;
