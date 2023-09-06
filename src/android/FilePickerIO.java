@@ -76,12 +76,23 @@ public class FilePickerIO extends CordovaPlugin {
         }
     }
 
+    
+
     private boolean hasPermission() {
-        return cordova.hasPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return cordova.hasPermission(android.Manifest.permission.READ_MEDIA_IMAGES);
+        } else {
+            return cordova.hasPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
     }
 
     private void requestPermission() {
-        cordova.requestPermission(this, 0, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            cordova.requestPermission(this, 0, android.Manifest.permission.READ_MEDIA_IMAGES);
+        } else {
+            cordova.requestPermission(this, 0, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        
     }
 
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
